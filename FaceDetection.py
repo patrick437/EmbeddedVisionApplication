@@ -3,21 +3,33 @@
 import cv2
 from  picamera2 import Picamera2
 
-face_detector = cv2.CascadeClassifier('/home/pnoonan/opencv-4.6/data/haarcascades/haarcascade_frontalface_default.xml')
-cv2.startWindowThread()
 
-picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
-picam2.start()
+def createCamera():
+	cv2.startWindowThread()
 
-while True:
-	im = picam2.capture_array()
+	picam2 = Picamera2()
+	picam2.configure(picam2.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
+	picam2.start()
+	return picam2
 	
-	grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-	faces = face_detector.detectMultiScale(grey, 1.1, 5)
 
-	for (x, y, w, h) in faces:
-		cv2.rectangle(im, (x, y), (x+w, y+h), (0,255,255))
+
+def captureImageArrays(picam2):
+	im = picam2.capture_array()
+	grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+	return im
+
+def iterateThroughData(im):
+
+	print( len(im) )
+
+	
+def main():
+	
+	picam2 = createCamera()
+
+	im = captureImageArrays(picam2)
 
 	cv2.imshow("Camera", im)
 	cv2.waitKey()
+	
