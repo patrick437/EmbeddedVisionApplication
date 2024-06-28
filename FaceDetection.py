@@ -11,8 +11,8 @@ def createCamera():
 	picam.start()
 	return picam
 
-def captureImageArrays(picam1, picam2):
-	im = picam1.capture_array()
+def captureImageArrays(picam):
+	im = picam.capture_array()
 	grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 	return im
 
