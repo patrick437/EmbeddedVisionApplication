@@ -7,29 +7,39 @@ from  picamera2 import Picamera2
 def createCamera():
 	cv2.startWindowThread()
 
+	picam1 = Picamera2()
 	picam2 = Picamera2()
+
+	picam2.configure(picam1.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
 	picam2.configure(picam2.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
+
+	picam1.start()
 	picam2.start()
-	return picam2
-	
 
+	return picam1, picam2
 
-def captureImageArrays(picam2):
-	im = picam2.capture_array()
-	grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-	return im
+def captureImageArrays(picam1, picam2):
+	im1 = picam1.capture_array()
+	im2 = picam2.capture_array()
 
-def iterateThroughData(im):
+	grey1 = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY)
+	grey2 = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY)
 
-	print( len(im) )
+	return im1, im2
+
+def iterateThroughData(im1, im2):
+
+	print( len(im1) )
+	print( len(im2) )
 
 	
 def main():
 	
-	picam2 = createCamera()
+	picam1, picam2 = createCamera()
 
-	im = captureImageArrays(picam2)
+	im1, im2 = captureImageArrays(picam1, picam2)
 
-	cv2.imshow("Camera", im)
+	cv2.imshow("Camera", im1)
+	cv2.imshow("Camera2", im2)	
 	cv2.waitKey()
 	
