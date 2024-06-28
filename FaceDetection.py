@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3q
 
 import cv2
 from  picamera2 import Picamera2
@@ -6,11 +6,7 @@ import time
 
 
 def createCamera(cam_number):
-	picam = Picamera2()
-	picam.configure(picam.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
-	config = picam.create_capture_configuration(main={"format":"XRGB8888","size": (640,480)})
-	picam.configure(config)
-	picam.set_controls({"CameraNum": cam_number})
+	picam = Picamera2(cam_number)
 	picam.start()
 	time.sleep(2) #Allow camera time to warm up
 	return picam
