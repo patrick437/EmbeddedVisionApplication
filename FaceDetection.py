@@ -5,9 +5,12 @@ from  picamera2 import Picamera2
 import time
 
 
-def createCamera():
+def createCamera(cam_number):
 	picam = Picamera2()
 	picam.configure(picam.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
+	config = picam.create_capture_configuration(main={"format":"XRGB8888","size": (640,480)})
+	picam.configure(config)
+	picam.set_controls({"CameraNum": cam_number})
 	picam.start()
 	time.sleep(2) #Allow camera time to warm up
 	return picam
@@ -26,8 +29,8 @@ def iterateThroughData(im):
 def main():
 	cv2.startWindowThread()#start threading in the main loop rather thenn the function
 
-	picam1 = createCamera()
-	picam2 = createCamera()
+	picam1 = createCamera(0)
+	picam2 = createCamera(1)
 
 	while True:
 		im1 = captureImageArrays(picam1)
