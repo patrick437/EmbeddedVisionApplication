@@ -7,12 +7,12 @@ from  picamera2 import Picamera2
 def createCamera():
 	cv2.startWindowThread()
 	picam = Picamera2()
-	picam.configure(picam1.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
+	picam.configure(picam.create_preview_configuration(main={"format":"XRGB8888","size": (640,480)}))
 	picam.start()
 	return picam
 
 def captureImageArrays(picam1, picam2):
-	im1 = picam1.capture_array()
+	im = picam1.capture_array()
 	grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 	return im
 
